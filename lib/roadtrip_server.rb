@@ -5,7 +5,7 @@ require 'erubis'
 require 'usher'
 
 Cramp::Controller::Websocket.backend = :thin
-Cramp::Model.init(:username => 'root', :database => 'roadtrip_deve')
+Cramp::Model.init(:username => 'root', :database => 'roadtrip_dev')
 
 require "roadtrip_server/roadtrip_controller"
 require "roadtrip_server/question"

@@ -15,6 +15,8 @@ module RoadTripController
     end
 
     def message_received(data)
+      question = Question.where(id = 10)
+      p question
       p data
       @@users.each {|u| u.render data }
     end
