@@ -25,12 +25,34 @@ module RoadTripController
         when 'moderator_question'; push_question(user,user_data)
         end
       end
-
-      @@users.each {|u| u.render data }
     end
 
     def save_answer(user,message)
+      #{"data"=>{"question_id"=>"22", "option"=>"85", "type"=>"user_answer"}, "user"=>"gnufied"}
+      answers = Answer.where(:question_id => message['question_id'])
+      UserAnswer.create(:question_id => message['question_id'],:answer_id => message['option'])
+      correct_answer = Answer.where(:question_id => message['question_id']).where(:correct => true).first
       
+      correct_flag = correct_answer.id == message['option'].to_i ? true : false
+
+      p "Correct answer + #{correct_answer.id}"
+      p "message id #{message['option']} #{correct_flag}"
+
+      total_count = UserAnswer.where(:question_id => message['question_id']).length
+      correct_count = UserAnswer.where(:answer_id => correct_answer.id).where(:question_id => message['question_id']).length
+      incorrect_answer = total_count - correct_count
+      data = {
+        :total_count => total_count,
+        :correct_count => correct_count,
+        :incorrect_answer => incorrect_answer,
+        :question_id => message['question_id'],
+        :message_type => 'user_response',
+        :correct => correct_flag
+      }
+      p total_count
+      p incorrect_answer
+      p correct_count
+      @@users.each { |u| u.render JSON.generate(data) }
     end
 
     def push_question(user,message)

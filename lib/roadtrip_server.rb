@@ -13,6 +13,7 @@ ActiveRecord::Base.establish_connection(:username => "root", :database => "roadt
 require "roadtrip_server/roadtrip_controller"
 require "roadtrip_server/question"
 require "roadtrip_server/answer"
+require "roadtrip_server/user_answer"
 
 routes = Usher::Interface.for(:rack) do
   add('/socket').to(RoadTripController::SocketAction)
