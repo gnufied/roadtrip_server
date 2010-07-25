@@ -1,11 +1,14 @@
 require "rubygems"
+require "json"
+
 require 'cramp/controller'
-require "cramp/model"
+require "active_record"
 require 'erubis'
 require 'usher'
 
 Cramp::Controller::Websocket.backend = :thin
-Cramp::Model.init(:username => 'root', :database => 'roadtrip_dev')
+
+ActiveRecord::Base.establish_connection(:username => "root", :database => "roadtrip_dev",:adapter => "mysql")
 
 require "roadtrip_server/roadtrip_controller"
 require "roadtrip_server/question"
